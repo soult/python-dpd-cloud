@@ -133,7 +133,7 @@ class DPDCloud(object):
 
     def _request(self, url, data=None):
         headers = {
-            "Version": self.API_VERSION,
+            "Version": str(self.API_VERSION),
             "Language": self.API_LANGUAGE,
             "PartnerCredentials-Name": self._partner_name,
             "PartnerCredentials-Token": self._partner_token,
