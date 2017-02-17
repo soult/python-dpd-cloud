@@ -3,6 +3,9 @@ import datetime
 import json
 import requests
 
+class DPDCloudException(BaseException):
+    pass
+
 class ZipCodeRules(object):
 
     def __init__(self, data):
@@ -180,5 +183,7 @@ class DPDCloud(object):
         }
         resp = self._request("setOrder", data)
         data = resp.json()
+        if not data["Ack"]:
+            raise DPDCloudException(data["ErrorDataList"][0]["ErrorMsgLong"])
         parcel.parcel_no = data["LabelResponse"]["LabelDataList"][0]["ParcelNo"]
         parcel.label = base64.b64decode(data["LabelResponse"]["LabelPDF"].encode("ascii"))
