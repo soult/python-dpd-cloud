@@ -2,7 +2,6 @@ import base64
 import datetime
 import json
 import requests
-import uuid
 
 class ZipCodeRules(object):
 
@@ -141,7 +140,6 @@ class DPDCloud(object):
         if data:
             headers["Content-Type"] = "application/json"
             body = json.dumps(data)
-            print(body)
             req = requests.Request("POST", self._api_endpoint + url, data=body, headers=headers)
         else:
             req = requests.Request("GET", self._api_endpoint + url, headers=headers)
@@ -180,9 +178,7 @@ class DPDCloud(object):
             },
             "OrderDataList": [parcel.to_dict()]
         }
-        print(data)
         resp = self._request("setOrder", data)
-        print(resp.text)
         data = resp.json()
         parcel.parcel_no = data["LabelResponse"]["LabelDataList"][0]["ParcelNo"]
         parcel.label = base64.b64decode(data["LabelResponse"]["LabelPDF"].encode("ascii"))
