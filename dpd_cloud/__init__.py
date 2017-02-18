@@ -25,8 +25,8 @@ class ZipCodeRules(object):
 
     def next_pickup_date(self, after=None):
         current = after or datetime.date.today()
-        while current.weekday() > 5 or current in self.no_pickup_days:
-            current = datetime.timedelta(days=1)
+        while current.weekday() > 4 or current in self.no_pickup_days:
+            current = current + datetime.timedelta(days=1)
         return current
 
 class Address(object):
