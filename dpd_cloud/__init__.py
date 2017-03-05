@@ -105,13 +105,14 @@ class Parcel(object):
             "ShipAddress": self.address.to_dict(),
             "ParcelData": {
                 "ShipService": self.service,
-                "Weight": "%0.1f" % self.weight,
                 "Content": self.content or "n/a",
                 "YourInternalID": self.internal_id or "\u00A0",
                 "Reference1": self.reference1 or "\u00A0",
                 "Reference2": self.reference2 or "\u00A0"
             }
         }
+        if self.weight:
+            result["ParcelData"]["Weight"] = "%0.1f" % self.weight
         return result
 
 class DPDCloud(object):
