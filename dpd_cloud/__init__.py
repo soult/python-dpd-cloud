@@ -90,7 +90,7 @@ class Parcel(object):
     SERVICE_EXPRESS_12_SATURDAY = "Express_12_Saturday"
     SERVICE_EXPRESS_12_COD_SATURDAY = "Express_12_COD_Saturday"
 
-    def __init__(self, address=None, service=SERVICE_CLASSIC, weight=None, content=None, internal_id=None, reference1=None, reference2=None):
+    def __init__(self, address=None, service=SERVICE_CLASSIC, weight=None, content=None, internal_id=None, reference1=None, reference2=None, parcel_shop_id=None):
         self.address = address
         self.service = service
         self.weight = weight
@@ -98,6 +98,7 @@ class Parcel(object):
         self.internal_id = internal_id
         self.reference1 = reference1
         self.reference2 = reference2
+        self.parcel_shop_id = parcel_shop_id
         self.label = None
 
     def to_dict(self):
@@ -113,6 +114,8 @@ class Parcel(object):
         }
         if self.weight:
             result["ParcelData"]["Weight"] = "%0.1f" % self.weight
+        if self.parcel_shop_id and self.service == self.SERVICE_SHOP_DELIVERY:
+            result["ParcelShopID"] = int(self.parcel_shop_id)
         return result
 
 class DPDCloud(object):
