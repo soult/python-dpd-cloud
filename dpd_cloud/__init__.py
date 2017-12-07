@@ -151,7 +151,7 @@ class DPDCloud(object):
         else:
             req = requests.Request("GET", self._api_endpoint + url, headers=headers)
         prepped = req.prepare()
-        return self._session.send(prepped)
+        return self._session.send(prepped, timeout=10)
 
     def zipcode_rules(self):
         if not hasattr(self, "_zipcode_rules"):
