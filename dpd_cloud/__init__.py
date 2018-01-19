@@ -191,3 +191,17 @@ class DPDCloud(object):
             raise DPDCloudException(data["ErrorDataList"][0]["ErrorMsgLong"])
         parcel.parcel_no = data["LabelResponse"]["LabelDataList"][0]["ParcelNo"]
         parcel.label = base64.b64decode(data["LabelResponse"]["LabelPDF"].encode("ascii"))
+
+    def get_parcel_lifecycle(self, parcel_no):
+        resp = self._request("ParcelLifeCycle/%s" % parcel_no)
+        data = resp.json()
+        if not data["Ack"]:
+            raise DPDCloudException(data["ErrorDataList"][0]["ErrorMsgLong"])
+        return data["ParcelLifeCycleData"]
+
+    def get_order_status(self, parcel_no, zip_code):
+        resp = self._request("getOrderStatus/%s/%s" % (parcel_no, zip_code))
+        data = resp.json()
+        if not data["Ack"]:
+            raise DPDCloudException(data["ErrorDataList"][0]["ErrorMsgLong"])
+        return data["OrderStatus"]
